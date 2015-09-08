@@ -42,5 +42,20 @@ namespace SpaceSloth_Part_Creator {
                 properties.Add(key, value);
             }
         }
+
+        public void cleanEntries() {
+            foreach(var prop in this.GetType().GetProperties()) {
+                if(prop.GetValue(this, null) is string) {
+                    prop.SetValue(this, prop.GetValue(this, null).ToString().Replace(" ", ""));
+                }
+            }
+        }
+
+        public void printPart() {
+            foreach(var prop in this.GetType().GetProperties()) {
+                Console.WriteLine(prop.Name + ": " + prop.GetValue(this, null));
+            }
+        }
+
     }
 }
