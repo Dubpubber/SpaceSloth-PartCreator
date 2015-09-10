@@ -32,6 +32,12 @@ namespace SpaceSloth_Part_Creator {
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.healthValue.KeyDown += new KeyEventHandler(textbox_KeyDown);
             this.healthValue.TextChanged += new TextChangedEventHandler(textbox_DecimalCheck);
+
+            this.repairFactorValue.KeyDown += new KeyEventHandler(textbox_KeyDown);
+            this.repairFactorValue.TextChanged += new TextChangedEventHandler(textbox_DecimalCheck);
+
+            this.costValue.KeyDown += new KeyEventHandler(textbox_KeyDown);
+            this.costValue.TextChanged += new TextChangedEventHandler(textbox_DecimalCheck);
         }
 
         /**
@@ -69,8 +75,10 @@ namespace SpaceSloth_Part_Creator {
 
         private void textbox_DecimalCheck(object sender, TextChangedEventArgs e) {
             TextBox box = sender as TextBox;
-            if(box != null) {
-                string str = box.Text;
+            decimal dec;
+            if(!decimal.TryParse(box.Text, out dec) && box.Text.Length > 0) {
+                MessageBox.Show(box.Text + " isn't a valid floating point.");
+                box.Clear();
             }
         }
 
@@ -107,9 +115,6 @@ namespace SpaceSloth_Part_Creator {
             }
             else
                 tempPart.Cost = 100.0f;
-
-            // set visible
-            tempPart.Visible = (bool)visibleValue.IsChecked;
 
             // set local name
             if (localNameValue.Text.Length > 0) {
@@ -148,42 +153,53 @@ namespace SpaceSloth_Part_Creator {
             else
                 tempPart.ShortHand = " ";
 
-            // finally, set part type
+            // finally, set part type and visibility
             if (partTypeValue.SelectedItem != null) {
                 string value = ((ListBoxItem)partTypeValue.SelectedValue).Content.ToString();
                 switch (value) {
                     case "Cockpit":
                         tempPart.PartType = value.ToUpper();
+                        tempPart.Visible = true;
                         break;
                     case "GunMount":
                         tempPart.PartType = value.ToUpper();
+                        tempPart.Visible = true;
                         break;
                     case "Hull":
                         tempPart.PartType = value.ToUpper();
+                        tempPart.Visible = true;
                         break;
                     case "Thrusters":
                         tempPart.PartType = value.ToUpper();
+                        tempPart.Visible = true;
                         break;
                     case "Wing1":
                         tempPart.PartType = "WING1";
+                        tempPart.Visible = true;
                         break;
                     case "Wing2":
                         tempPart.PartType = "WING2";
+                        tempPart.Visible = true;
                         break;
                     case "Shield Generator":
                         tempPart.PartType = "SGENERATOR";
+                        tempPart.Visible = true;
                         break;
                     case "Reactor":
                         tempPart.PartType = value.ToUpper();
+                        tempPart.Visible = false;
                         break;
                     case "Armory":
                         tempPart.PartType = value.ToUpper();
+                        tempPart.Visible = false;
                         break;
                     case "Tractor Beam":
                         tempPart.PartType = "TRACKBEAM";
+                        tempPart.Visible = false;
                         break;
                     case "Refinery":
                         tempPart.PartType = value.ToUpper();
+                        tempPart.Visible = false;
                         break;
                 }
             }
