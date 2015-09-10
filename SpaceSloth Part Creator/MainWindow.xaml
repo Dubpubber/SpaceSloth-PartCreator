@@ -64,7 +64,7 @@
             </ListBox>
             <!--Row 2: Health-->
             <Label Content="Health:" Grid.Row="1" Grid.Column="0"></Label>
-            <xctk:MaskedTextBox x:Name="healthValue" Grid.Row="1" Grid.Column="1" AcceptsTab="False" Mask="####.#" VerticalContentAlignment="Center" />
+            <TextBox x:Name="healthValue" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" />
             <!--Row 3: Repair Factor-->
             <Label Content="Repair Factor:" Grid.Row="2" Grid.Column="0"></Label>
             <xctk:MaskedTextBox x:Name="repairFactorValue" Grid.Row="2" Grid.Column="1" AcceptsTab="False" Mask="###0.0" VerticalContentAlignment="Center" />
@@ -103,11 +103,14 @@
                 <ListBoxItem>Tractor Beam</ListBoxItem>
                 <ListBoxItem>Refinery</ListBoxItem>
             </ListBox>
+            <!--JSON preview text box-->
+            <ScrollViewer Grid.Row="1" Grid.Column="2" Grid.RowSpan="8" Margin="0,0,19,0">
+                <TextBlock x:Name="JsonPreview"/>
+            </ScrollViewer>
             <!-- Begin Buttons -->
-            <Button x:Name="genPartSet" Content="Generate Part Set" Grid.Row="1" Grid.Column="2" Margin="25,0,50,0"></Button>
-            <Button x:Name="getPart" Content="Generate Part" Grid.Row="2" Grid.Column="2" Margin="25,0,50,0" Click="Button_Click"></Button>
-            <Button x:Name="loadJson" Content="Load Precreated Json" Grid.Row="3" Grid.Column="2" Margin="25,0,50,0" Click="Button_Click_1"></Button>
-            <Button x:Name="getRandPart" Content="Generate Random Part" Grid.Row="4" Grid.Column="2" Margin="25,0,50,0"></Button>
+            <Button x:Name="getPart" Content="Generate Part" Grid.Row="0" Grid.Column="2" Margin="25,0,50,0" Click="Button_Click" MaxHeight="25" VerticalAlignment="Center"></Button>
+            <Button x:Name="getRandPart" Content="Generate Random Part" Grid.Row="0" Grid.Column="2" Margin="25,0,50,0" MaxHeight="25" VerticalAlignment="Bottom"></Button>
+            <Button x:Name="loadJson" Content="Load Precreated Json" Grid.Row="9" Grid.Column="2" Margin="25,0,50,0" Click="Button_Click_1" MaxHeight="25"></Button>
         </Grid>
     </ScrollViewer>
 </Window>

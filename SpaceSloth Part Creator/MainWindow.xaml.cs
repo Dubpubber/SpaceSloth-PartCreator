@@ -30,9 +30,8 @@ namespace SpaceSloth_Part_Creator {
         public MainWindow() {
             InitializeComponent();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-
-            
-
+            this.healthValue.KeyDown += new KeyEventHandler(textbox_KeyDown);
+            this.healthValue.TextChanged += new TextChangedEventHandler(textbox_DecimalCheck);
         }
 
         /**
@@ -59,6 +58,21 @@ namespace SpaceSloth_Part_Creator {
             }
         }
 
+        private void textbox_KeyDown(object sender, KeyEventArgs e) {
+            bool digit = e.Key.ToString().Contains("NumPad") || e.Key.ToString().Contains("D") && !e.Key.ToString().Equals("D");
+            Console.WriteLine(digit);
+            if (digit)
+                e.Handled = false;
+            else
+                e.Handled = true;
+        }
+
+        private void textbox_DecimalCheck(object sender, TextChangedEventArgs e) {
+            TextBox box = sender as TextBox;
+            if(box != null) {
+                string str = box.Text;
+            }
+        }
 
         public Part loadPart() {
             Part tempPart = new Part();
