@@ -65,7 +65,7 @@
             </ListBox>
 
             <Label Content="PartType" Grid.Row="0" Grid.Column="2"></Label>
-            <ListBox x:Name="partTypeValue" Grid.Row="0" Grid.Column="3">
+            <ListBox x:Name="partTypeValue" Grid.Row="0" Grid.Column="3" PreviewMouseDown="listView_Click">
                 <ListBoxItem>Cockpit</ListBoxItem>
                 <ListBoxItem>GunMount</ListBoxItem>
                 <ListBoxItem>Hull</ListBoxItem>
@@ -107,10 +107,10 @@
 
             <!-- Begin Properties panel. -->
             <Label Content="Edit Properties: (Select part type first!)" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2"/>
-            <DataGrid x:Name="props" Grid.Row="5" Grid.Column="1" Grid.RowSpan="4" Grid.ColumnSpan="3" Margin="100,0,0,0" ItemsSource="{Binding propertyReader}" AutoGenerateColumns="False">
+            <DataGrid x:Name="props" Grid.Row="5" Grid.Column="1" Grid.RowSpan="4" Grid.ColumnSpan="3" Margin="100,0,0,0" ItemsSource="{Binding properties}" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Property" Width="100" Binding="{Binding Key}"/>
-                    <DataGridTextColumn Header="Value" Width="150" Binding="{Binding Value[0]}"/>
+                    <DataGridTextColumn Header="Key" Width="100" Binding="{Binding Key}"/>
+                    <DataGridTextColumn Header="Value" Width="*" Binding="{Binding Value}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

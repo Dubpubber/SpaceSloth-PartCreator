@@ -27,6 +27,8 @@ namespace SpaceSloth_Part_Creator {
 
         private JArray jAr;
 
+        public Dictionary<string, string> properties { get; set; }
+
         public MainWindow() {
             InitializeComponent();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
@@ -38,6 +40,8 @@ namespace SpaceSloth_Part_Creator {
 
             this.costValue.KeyDown += new KeyEventHandler(textbox_KeyDown);
             this.costValue.TextChanged += new TextChangedEventHandler(textbox_DecimalCheck);
+
+            properties = new Dictionary<string, string>();
         }
 
         /**
@@ -80,6 +84,64 @@ namespace SpaceSloth_Part_Creator {
                 MessageBox.Show(box.Text + " isn't a valid floating point.");
                 box.Clear();
             }
+        }
+
+        private void listView_Click(object sender, MouseButtonEventArgs e) {
+            var item = ItemsControl.ContainerFromElement(partTypeValue, e.OriginalSource as DependencyObject) as ListBoxItem;
+            if (item != null) {
+                Console.WriteLine("Loading properties for item clicked...");
+                if(properties.Count() > 0)
+                    properties.Clear();
+                loadPartProperties(item);
+                Console.WriteLine("Completed. Count: " + properties.Count());
+            }
+        }
+
+        private void loadPartProperties(ListBoxItem item) {
+            Part tempPart = new Part();
+            string value = item.Content.ToString();
+            switch (value) {
+                case "Cockpit":
+                    properties.Add("HudValue", "0");
+                    break;
+                case "GunMount":
+                    properties.Add("FireRate", "10.0");
+                    break;
+                case "Hull":
+                    properties.Add("Capacity", "100.0");
+                    break;
+                case "Thrusters":
+                    properties.Add("BoostCap", "100.0");
+                    break;
+                case "Wing1":
+                    properties.Add("Torque", "50.0");
+                    break;
+                case "Wing2":
+                    properties.Add("Torque", "50.0");
+                    break;
+                case "Shield Generator":
+                    properties.Add("Power", "25.0");
+                    break;
+                case "Reactor":
+                    properties.Add("MaxSpeed", "0.080");
+                    break;
+                case "Armory":
+                    properties.Add("Capacity", "1");
+                    break;
+                case "Tractor Beam":
+                    properties.Add("Range", "5.0");
+                    break;
+                case "Refinery":
+                    properties.Add("RefineSpeed", "1.0");
+                    break;
+            }
+            
+            // Set the curent dictionary to the new properties.
+            tempPart.properties = properties;
+
+            props.ItemsSource = null;
+            props.ItemsSource = properties;
+
         }
 
         public Part loadPart() {
