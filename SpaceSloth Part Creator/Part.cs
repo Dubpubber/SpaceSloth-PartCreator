@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,12 +38,6 @@ namespace SpaceSloth_Part_Creator {
             properties = new Dictionary<string,string>();
         }
 
-        public void addProperty(string key, string value) {
-            if (!properties.ContainsKey(key)) {
-                properties.Add(key, value);
-            }
-        }
-
         public void cleanEntries() {
             foreach(var prop in this.GetType().GetProperties()) {
                 if(prop.GetValue(this, null) is string) {
@@ -54,6 +49,12 @@ namespace SpaceSloth_Part_Creator {
         public void printPart() {
             foreach(var prop in this.GetType().GetProperties()) {
                 Console.WriteLine(prop.Name + ": " + prop.GetValue(this, null));
+            }
+        }
+
+        public void addProps(ObservableCollection<Property> prop) {
+            foreach(Property property in prop) {
+                properties.Add(property.Key, property.Value);
             }
         }
 

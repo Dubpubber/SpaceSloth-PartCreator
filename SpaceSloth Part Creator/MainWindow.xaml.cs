@@ -5,6 +5,7 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -27,7 +28,7 @@ namespace SpaceSloth_Part_Creator {
 
         private JArray jAr;
 
-        public Dictionary<string, string> properties { get; set; }
+        private ObservableCollection<Property> properties;
 
         public MainWindow() {
             InitializeComponent();
@@ -41,7 +42,7 @@ namespace SpaceSloth_Part_Creator {
             this.costValue.KeyDown += new KeyEventHandler(textbox_KeyDown);
             this.costValue.TextChanged += new TextChangedEventHandler(textbox_DecimalCheck);
 
-            properties = new Dictionary<string, string>();
+            properties = new ObservableCollection<Property>();
         }
 
         /**
@@ -90,7 +91,7 @@ namespace SpaceSloth_Part_Creator {
             var item = ItemsControl.ContainerFromElement(partTypeValue, e.OriginalSource as DependencyObject) as ListBoxItem;
             if (item != null) {
                 Console.WriteLine("Loading properties for item clicked...");
-                if(properties.Count() > 0)
+                if (properties.Count() > 0)
                     properties.Clear();
                 loadPartProperties(item);
                 Console.WriteLine("Completed. Count: " + properties.Count());
@@ -102,45 +103,47 @@ namespace SpaceSloth_Part_Creator {
             string value = item.Content.ToString();
             switch (value) {
                 case "Cockpit":
-                    properties.Add("HudValue", "0");
+                    properties.Add(new Property { Key = "HudValue", Value = "0"});
                     break;
                 case "GunMount":
-                    properties.Add("FireRate", "10.0");
+                    properties.Add(new Property { Key = "FireRate", Value = "10.0" });
                     break;
                 case "Hull":
-                    properties.Add("Capacity", "100.0");
+                    properties.Add(new Property { Key = "Capacity", Value = "100.0" });
                     break;
                 case "Thrusters":
-                    properties.Add("BoostCap", "100.0");
+                    properties.Add(new Property { Key = "BoostCap", Value = "100.0" });
                     break;
                 case "Wing1":
-                    properties.Add("Torque", "50.0");
+                    properties.Add(new Property { Key = "Torque", Value = "50.0" });
                     break;
                 case "Wing2":
-                    properties.Add("Torque", "50.0");
+                    properties.Add(new Property { Key = "Torque", Value = "50.0" });
                     break;
                 case "Shield Generator":
-                    properties.Add("Power", "25.0");
+                    properties.Add(new Property { Key = "Power", Value = "25.0" });
                     break;
                 case "Reactor":
-                    properties.Add("MaxSpeed", "0.080");
+                    properties.Add(new Property { Key = "MaxSpeed", Value = "0.080" });
                     break;
                 case "Armory":
-                    properties.Add("Capacity", "1");
+                    properties.Add(new Property { Key = "Capacity", Value = "1" });
                     break;
                 case "Tractor Beam":
-                    properties.Add("Range", "5.0");
+                    properties.Add(new Property { Key = "Range", Value = "5.0" });
                     break;
                 case "Refinery":
-                    properties.Add("RefineSpeed", "1.0");
+                    properties.Add(new Property { Key = "RefineSpeed", Value = "1.0" });
                     break;
             }
             
             // Set the curent dictionary to the new properties.
-            tempPart.properties = properties;
+            tempPart.addProps(properties);
 
             props.ItemsSource = null;
             props.ItemsSource = properties;
+
+            tempPart.printPart();
 
         }
 
