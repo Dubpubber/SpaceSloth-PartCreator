@@ -1,24 +1,12 @@
-﻿using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Utilities;
+﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SpaceSloth_Part_Creator {
     /// <summary>
@@ -26,9 +14,13 @@ namespace SpaceSloth_Part_Creator {
     /// </summary>
     public partial class MainWindow : Window {
 
-        private JArray jAr;
+        private string jAr;
+
+        private Part part;
 
         private ObservableCollection<Property> properties;
+
+        private string jsonString = "Click make part button to preview json.";
 
         public MainWindow() {
             InitializeComponent();
@@ -43,6 +35,7 @@ namespace SpaceSloth_Part_Creator {
             this.costValue.TextChanged += new TextChangedEventHandler(textbox_DecimalCheck);
 
             properties = new ObservableCollection<Property>();
+            part = new Part();
         }
 
         /**
@@ -50,8 +43,21 @@ namespace SpaceSloth_Part_Creator {
          */
         private void Button_Click(object sender, RoutedEventArgs e) {
             Part part = loadPart();
-            part.cleanEntries();
-            part.printPart();
+            if (jAr == null) {
+                MessageBox.Show("No precreated Json file has been loaded!");
+                return;
+            }
+            else {
+                using (FileStream fs = File.Open(jAr, FileMode.Append))
+                using (StreamWriter sw = new StreamWriter(fs))
+                using (JsonWriter jw = new JsonTextWriter(sw)) {
+                    jw.Formatting = Formatting.Indented;
+
+                    JsonSerializer serializer = new JsonSerializer();
+                    serializer.Serialize(jw, part);
+                }
+            }
+
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e) {
@@ -63,8 +69,7 @@ namespace SpaceSloth_Part_Creator {
             Nullable<bool> result = dlg.ShowDialog();
 
             if(result == true) {
-                string asset = dlg.FileName;
-                jAr = JArray.Parse(File.ReadAllText(asset));
+                jAr = dlg.FileName;
                 Console.WriteLine("File: " + (jAr != null));
             }
         }
@@ -99,11 +104,10 @@ namespace SpaceSloth_Part_Creator {
         }
 
         private void loadPartProperties(ListBoxItem item) {
-            Part tempPart = new Part();
             string value = item.Content.ToString();
             switch (value) {
                 case "Cockpit":
-                    properties.Add(new Property { Key = "HudValue", Value = "0"});
+                    properties.Add(new Property { Key = "HudValue", Value = "0" });
                     break;
                 case "GunMount":
                     properties.Add(new Property { Key = "FireRate", Value = "10.0" });
@@ -138,140 +142,140 @@ namespace SpaceSloth_Part_Creator {
             }
             
             // Set the curent dictionary to the new properties.
-            tempPart.addProps(properties);
+            part.addProps(properties);
+
 
             props.ItemsSource = null;
             props.ItemsSource = properties;
-
-            tempPart.printPart();
-
         }
 
         public Part loadPart() {
-            Part tempPart = new Part();
 
             System.Globalization.CultureInfo currentCulture = System.Threading.Thread.CurrentThread.CurrentCulture;
 
             // set the rank
             if (rankValue.SelectedItem != null) {
                 string rankType = ((ListBoxItem)rankValue.SelectedValue).Content.ToString();
-                tempPart.Rank = rankType.Substring(4).Replace(" ", "");
+                part.Rank = rankType.Substring(4).Replace(" ", "");
             }
             else
-                tempPart.Rank = "A";
+                part.Rank = "A";
 
             // set the health
             if (healthValue.Text.Length > 0) {
-                tempPart.Health = float.Parse(healthValue.Text, currentCulture);
+                part.Health = float.Parse(healthValue.Text, currentCulture);
             }
             else
-                tempPart.Health = 1f;
+                part.Health = 1f;
 
             // set repair factor
             if (repairFactorValue.Text.Length > 0) {
-                tempPart.RepairFactor = float.Parse(repairFactorValue.Text, currentCulture);
+                part.RepairFactor = float.Parse(repairFactorValue.Text, currentCulture);
             }
             else
-                tempPart.RepairFactor = 1.0f;
+                part.RepairFactor = 1.0f;
 
             // set cost
             if (costValue.Text.Length > 0) {
-                tempPart.Cost = float.Parse(costValue.Text, currentCulture);
+                part.Cost = float.Parse(costValue.Text, currentCulture);
             }
             else
-                tempPart.Cost = 100.0f;
+                part.Cost = 100.0f;
 
             // set local name
             if (localNameValue.Text.Length > 0) {
-                tempPart.LocalName = localNameValue.Text;
+                part.LocalName = localNameValue.Text;
             }
             else
-                tempPart.LocalName = " ";
+                part.LocalName = " ";
 
             // set file name
             if (fileNameValue.Text.Length > 0) {
-                tempPart.FileName = fileNameValue.Text;
+                part.FileName = fileNameValue.Text;
             }
             else
-                tempPart.FileName = " ";
+                part.FileName = " ";
 
             Color selectedColor = new Color();
             // set rgb
             if (rgbValue.SelectedColor != null) {
                 selectedColor = (Color)rgbValue.SelectedColor;
-                tempPart.RGB = selectedColor.R.ToString() + selectedColor.G.ToString() + selectedColor.B.ToString();
+                part.RGB = selectedColor.R.ToString("X2") + selectedColor.G.ToString("X2") + selectedColor.B.ToString("X2");
             }
             else
-                tempPart.RGB = "000000";
+                part.RGB = "000000";
 
             // set alpha
             if (rgbValue.SelectedColor != null) {
-                tempPart.Alpha = float.Parse(selectedColor.A.ToString(), currentCulture);
+                part.Alpha = float.Parse(selectedColor.A.ToString(), currentCulture) / 100;
             }
             else
-                tempPart.Alpha = 1.0f;
+                part.Alpha = 1.0f;
 
             // set shorthand
             if (shortHandValue.Text.Length > 0) {
-                tempPart.ShortHand = shortHandValue.Text;
+                part.ShortHand = shortHandValue.Text;
             }
             else
-                tempPart.ShortHand = " ";
+                part.ShortHand = " ";
 
             // finally, set part type and visibility
             if (partTypeValue.SelectedItem != null) {
                 string value = ((ListBoxItem)partTypeValue.SelectedValue).Content.ToString();
                 switch (value) {
                     case "Cockpit":
-                        tempPart.PartType = value.ToUpper();
-                        tempPart.Visible = true;
+                        part.PartType = value.ToUpper();
+                        part.Visible = true;
                         break;
                     case "GunMount":
-                        tempPart.PartType = value.ToUpper();
-                        tempPart.Visible = true;
+                        part.PartType = value.ToUpper();
+                        part.Visible = true;
                         break;
                     case "Hull":
-                        tempPart.PartType = value.ToUpper();
-                        tempPart.Visible = true;
+                        part.PartType = value.ToUpper();
+                        part.Visible = true;
                         break;
                     case "Thrusters":
-                        tempPart.PartType = value.ToUpper();
-                        tempPart.Visible = true;
+                        part.PartType = value.ToUpper();
+                        part.Visible = true;
                         break;
                     case "Wing1":
-                        tempPart.PartType = "WING1";
-                        tempPart.Visible = true;
+                        part.PartType = "WING1";
+                        part.Visible = true;
                         break;
                     case "Wing2":
-                        tempPart.PartType = "WING2";
-                        tempPart.Visible = true;
+                        part.PartType = "WING2";
+                        part.Visible = true;
                         break;
                     case "Shield Generator":
-                        tempPart.PartType = "SGENERATOR";
-                        tempPart.Visible = true;
+                        part.PartType = "SGENERATOR";
+                        part.Visible = true;
                         break;
                     case "Reactor":
-                        tempPart.PartType = value.ToUpper();
-                        tempPart.Visible = false;
+                        part.PartType = value.ToUpper();
+                        part.Visible = false;
                         break;
                     case "Armory":
-                        tempPart.PartType = value.ToUpper();
-                        tempPart.Visible = false;
+                        part.PartType = value.ToUpper();
+                        part.Visible = false;
                         break;
                     case "Tractor Beam":
-                        tempPart.PartType = "TRACKBEAM";
-                        tempPart.Visible = false;
+                        part.PartType = "TRACKBEAM";
+                        part.Visible = false;
                         break;
                     case "Refinery":
-                        tempPart.PartType = value.ToUpper();
-                        tempPart.Visible = false;
+                        part.PartType = value.ToUpper();
+                        part.Visible = false;
                         break;
                 }
             }
             else
-                tempPart.PartType = "COCKPIT";
+                part.PartType = "COCKPIT";
 
-            return tempPart;
+            if(part.Properties.Count() > 0)
+                jsonPreview.Text = part.serializeToJson();
+
+            return part;
         }
 
     }
