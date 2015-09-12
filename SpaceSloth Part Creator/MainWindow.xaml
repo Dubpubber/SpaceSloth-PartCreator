@@ -2,123 +2,129 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        Title="SpaceSloth Part Creator" Height="442" Width="536">
+        Title="SpaceSloth Part Creator" Height="315" Width="834">
     <!--Begin Window-->
-    <ScrollViewer Margin="0,0,2,0">
-        <Grid x:Name="grid">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="75" />
-                <RowDefinition Height="25" />
-                <RowDefinition Height="25" />
-                <RowDefinition Height="25" />
-                <RowDefinition Height="25" />
-                <RowDefinition Height="25" />
-                <RowDefinition Height="25" />
-                <RowDefinition Height="25" />
-                <RowDefinition Height="25" />
-                <RowDefinition Height="100" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="150"/>
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="150" />
-            </Grid.ColumnDefinitions>
+    <Grid x:Name="grid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="100" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="150" />
+        </Grid.ColumnDefinitions>
 
-            <Label x:Name="rank" Content="Rank:" Grid.Row="0" Grid.Column="0" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Margin="1,0,124,0"></Label>
-            <ListBox x:Name="rankValue" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Stretch">
-                <!--Rank Level 1-->
-                <ListBoxItem>Rank A</ListBoxItem>
-                <ListBoxItem>Rank B</ListBoxItem>
-                <ListBoxItem>Rank C</ListBoxItem>
-                <ListBoxItem>Rank D</ListBoxItem>
-                <ListBoxItem>Rank E</ListBoxItem>
-                <ListBoxItem>Rank F</ListBoxItem>
-                <!--Rank Level 2-->
-                <ListBoxItem>Rank A1</ListBoxItem>
-                <ListBoxItem>Rank B1</ListBoxItem>
-                <ListBoxItem>Rank C1</ListBoxItem>
-                <ListBoxItem>Rank D1</ListBoxItem>
-                <ListBoxItem>Rank E1</ListBoxItem>
-                <ListBoxItem>Rank F1</ListBoxItem>
-                <!--Rank Level 3-->
-                <ListBoxItem>Rank A2</ListBoxItem>
-                <ListBoxItem>Rank B2</ListBoxItem>
-                <ListBoxItem>Rank C2</ListBoxItem>
-                <ListBoxItem>Rank D2</ListBoxItem>
-                <ListBoxItem>Rank E2</ListBoxItem>
-                <ListBoxItem>Rank F2</ListBoxItem>
-                <!--Rank Level 4-->
-                <ListBoxItem>Rank S</ListBoxItem>
-                <ListBoxItem>Rank T</ListBoxItem>
-                <ListBoxItem>Rank U</ListBoxItem>
-                <ListBoxItem>Rank V</ListBoxItem>
-                <ListBoxItem>Rank W</ListBoxItem>
-                <ListBoxItem>Rank X</ListBoxItem>
-                <!--Rank Level 5-->
-                <ListBoxItem>Rank S1000</ListBoxItem>
-                <ListBoxItem>Rank T1000</ListBoxItem>
-                <ListBoxItem>Rank U1000</ListBoxItem>
-                <ListBoxItem>Rank V1000</ListBoxItem>
-                <ListBoxItem>Rank W1000</ListBoxItem>
-                <ListBoxItem>Rank X1000</ListBoxItem>
-            </ListBox>
+        <Label x:Name="rank" Content="Rank:" Grid.Row="0" Grid.Column="0" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Margin="1,0,124,0"></Label>
+        <ListBox x:Name="rankValue" Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Stretch">
+            <!--Rank Level 1-->
+            <ListBoxItem>Rank A</ListBoxItem>
+            <ListBoxItem>Rank B</ListBoxItem>
+            <ListBoxItem>Rank C</ListBoxItem>
+            <ListBoxItem>Rank D</ListBoxItem>
+            <ListBoxItem>Rank E</ListBoxItem>
+            <ListBoxItem>Rank F</ListBoxItem>
+            <!--Rank Level 2-->
+            <ListBoxItem>Rank A1</ListBoxItem>
+            <ListBoxItem>Rank B1</ListBoxItem>
+            <ListBoxItem>Rank C1</ListBoxItem>
+            <ListBoxItem>Rank D1</ListBoxItem>
+            <ListBoxItem>Rank E1</ListBoxItem>
+            <ListBoxItem>Rank F1</ListBoxItem>
+            <!--Rank Level 3-->
+            <ListBoxItem>Rank A2</ListBoxItem>
+            <ListBoxItem>Rank B2</ListBoxItem>
+            <ListBoxItem>Rank C2</ListBoxItem>
+            <ListBoxItem>Rank D2</ListBoxItem>
+            <ListBoxItem>Rank E2</ListBoxItem>
+            <ListBoxItem>Rank F2</ListBoxItem>
+            <!--Rank Level 4-->
+            <ListBoxItem>Rank S</ListBoxItem>
+            <ListBoxItem>Rank T</ListBoxItem>
+            <ListBoxItem>Rank U</ListBoxItem>
+            <ListBoxItem>Rank V</ListBoxItem>
+            <ListBoxItem>Rank W</ListBoxItem>
+            <ListBoxItem>Rank X</ListBoxItem>
+            <!--Rank Level 5-->
+            <ListBoxItem>Rank S1000</ListBoxItem>
+            <ListBoxItem>Rank T1000</ListBoxItem>
+            <ListBoxItem>Rank U1000</ListBoxItem>
+            <ListBoxItem>Rank V1000</ListBoxItem>
+            <ListBoxItem>Rank W1000</ListBoxItem>
+            <ListBoxItem>Rank X1000</ListBoxItem>
+        </ListBox>
 
-            <Label Content="PartType" Grid.Row="0" Grid.Column="2"></Label>
-            <ListBox x:Name="partTypeValue" Grid.Row="0" Grid.Column="3" PreviewMouseDown="listView_Click">
-                <ListBoxItem>Cockpit</ListBoxItem>
-                <ListBoxItem>GunMount</ListBoxItem>
-                <ListBoxItem>Hull</ListBoxItem>
-                <ListBoxItem>Thrusters</ListBoxItem>
-                <ListBoxItem>Wing1</ListBoxItem>
-                <ListBoxItem>Wing2</ListBoxItem>
-                <ListBoxItem>Shield Generator</ListBoxItem>
-                <!--invisibles-->
-                <ListBoxItem>Reactor</ListBoxItem>
-                <ListBoxItem>Armory</ListBoxItem>
-                <ListBoxItem>Tractor Beam</ListBoxItem>
-                <ListBoxItem>Refinery</ListBoxItem>
-            </ListBox>
-            <Label Content="Health:" Grid.Row="1" Grid.Column="0"></Label>
-            <TextBox x:Name="healthValue" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" Text="{Binding health, FallbackValue=100.0}"/>
+        <Label Content="PartType" Grid.Row="0" Grid.Column="2"></Label>
+        <ListBox x:Name="partTypeValue" Grid.Row="0" Grid.Column="3" PreviewMouseDown="listView_Click">
+            <ListBoxItem>Cockpit</ListBoxItem>
+            <ListBoxItem>GunMount</ListBoxItem>
+            <ListBoxItem>Hull</ListBoxItem>
+            <ListBoxItem>Thrusters</ListBoxItem>
+            <ListBoxItem>Wing1</ListBoxItem>
+            <ListBoxItem>Wing2</ListBoxItem>
+            <ListBoxItem>Shield Generator</ListBoxItem>
+            <!--invisibles-->
+            <ListBoxItem>Reactor</ListBoxItem>
+            <ListBoxItem>Armory</ListBoxItem>
+            <ListBoxItem>Tractor Beam</ListBoxItem>
+            <ListBoxItem>Refinery</ListBoxItem>
+        </ListBox>
+        <Label Content="Health:" Grid.Row="1" Grid.Column="0"></Label>
+        <TextBox x:Name="healthValue" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" Text="{Binding health, FallbackValue=100.0}"/>
 
-            <Label Content="Repair Factor:" Grid.Row="2" Grid.Column="0"></Label>
-            <TextBox x:Name="repairFactorValue" Grid.Row="2" Grid.Column="1" VerticalContentAlignment="Center" Text="{Binding repairFactor, FallbackValue=1.0}"/>
+        <Label Content="Repair Factor:" Grid.Row="2" Grid.Column="0"></Label>
+        <TextBox x:Name="repairFactorValue" Grid.Row="2" Grid.Column="1" VerticalContentAlignment="Center" Text="{Binding repairFactor, FallbackValue=1.0}"/>
 
 
-            <Label Content="Cost" Grid.Row="3" Grid.Column="0"></Label>
-            <TextBox x:Name="costValue" Grid.Row="3" Grid.Column="1" VerticalContentAlignment="Center" Text="{Binding cost, FallbackValue=100.0}"/>
+        <Label Content="Cost" Grid.Row="3" Grid.Column="0"></Label>
+        <TextBox x:Name="costValue" Grid.Row="3" Grid.Column="1" VerticalContentAlignment="Center" Text="{Binding cost, FallbackValue=100.0}"/>
 
-            <Label Content="LocalName" Grid.Row="1" Grid.Column="2"></Label>
-            <TextBox x:Name="localNameValue" Grid.Row="1" Grid.Column="3" Margin="1,0,0,0" VerticalContentAlignment="Center" />
+        <Label Content="LocalName" Grid.Row="1" Grid.Column="2"></Label>
+        <TextBox x:Name="localNameValue" Grid.Row="1" Grid.Column="3" Margin="1,0,0,0" VerticalContentAlignment="Center" />
 
-            <Label Content="FileName" Grid.Row="2" Grid.Column="2"></Label>
-            <TextBox x:Name="fileNameValue" Grid.Row="2" Grid.Column="3" Margin="1,0,0,0" Height="25" VerticalAlignment="Top"/>
+        <Label Content="FileName" Grid.Row="2" Grid.Column="2"></Label>
+        <ComboBox x:Name="fileNameValue" Grid.Row="2" Grid.Column="3" Margin="1,0,0,0" Height="25" VerticalAlignment="Top">
+            <ComboBoxItem Name="cbi1">Parts/Sprites/BaseCockpit.png</ComboBoxItem>
+            <ComboBoxItem Name="cbi2">Parts/Sprites/BaseGunMount.png</ComboBoxItem>
+            <ComboBoxItem Name="cbi3">Parts/Sprites/BaseHull.png</ComboBoxItem>
+            <ComboBoxItem Name="cbi4">Parts/Sprites/BaseShield.png</ComboBoxItem>
+            <ComboBoxItem Name="cbi5">Parts/Sprites/BaseThrusters.png</ComboBoxItem>
+            <ComboBoxItem Name="cbi6">Parts/Sprites/BaseWing1.png</ComboBoxItem>
+            <ComboBoxItem Name="cbi7">Parts/Sprites/BaseWing2.png</ComboBoxItem>
+        </ComboBox>
 
-            <Label Content="RGB" Grid.Row="4" Grid.Column="0"></Label>
-            <xctk:ColorPicker x:Name="rgbValue" Grid.Row="4" Grid.Column="1" ColorMode="ColorCanvas"/>
+        <Label Content="RGB" Grid.Row="4" Grid.Column="0"></Label>
+        <xctk:ColorPicker x:Name="rgbValue" Grid.Row="4" Grid.Column="1" ColorMode="ColorCanvas"/>
 
-            <Label Content="Shorthand" Grid.Row="3" Grid.Column="2"></Label>
-            <TextBox x:Name="shortHandValue" Grid.Row="3" Grid.Column="3" Margin="1,0,0,0" VerticalContentAlignment="Center" />
+        <Label Content="Shorthand" Grid.Row="3" Grid.Column="2"></Label>
+        <TextBox x:Name="shortHandValue" Grid.Row="3" Grid.Column="3" Margin="1,0,0,0" VerticalContentAlignment="Center" />
 
-            <Button x:Name="getPart" Content="Make Part" Grid.Row="7" Grid.Column="0" Margin="10,0,56,0" Click="Button_Click" MaxHeight="25" VerticalAlignment="Center" RenderTransformOrigin="8.692,12.65" Height="26" Grid.ColumnSpan="2"></Button>
-            <Button x:Name="getRandPart" Content="Generate Random Part" Grid.Row="6" MaxHeight="25" VerticalAlignment="Bottom" RenderTransformOrigin="0.269,4.45" Height="25" Margin="10,0,56,1" Grid.ColumnSpan="2"/>
-            <Button x:Name="loadJson" Content="Load Precreated Json" Grid.Row="5" Margin="10,0,56,0" Click="Button_Click_1" MaxHeight="25" Grid.ColumnSpan="2"/>
+        <Button x:Name="getPart" Content="Make Part" Grid.Row="7" Grid.Column="0" Margin="10,0,56,0" Click="Button_Click" MaxHeight="25" VerticalAlignment="Center" RenderTransformOrigin="8.692,12.65" Height="26" Grid.ColumnSpan="2"></Button>
+        <Button x:Name="getRandPart" Content="Generate Random Part" Grid.Row="6" MaxHeight="25" VerticalAlignment="Bottom" RenderTransformOrigin="0.269,4.45" Height="25" Margin="10,0,56,1" Grid.ColumnSpan="2"/>
+        <Button x:Name="loadJson" Content="Load Precreated Json" Grid.Row="5" Margin="10,0,56,0" Click="Button_Click_1" MaxHeight="25" Grid.ColumnSpan="2"/>
 
-            <!-- Begin Properties panel. -->
-            <Label Content="Edit Properties: (Select part type first!)" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2"/>
-            <DataGrid x:Name="props" Grid.Row="5" Grid.Column="1" Grid.RowSpan="4" Grid.ColumnSpan="3" Margin="100,0,0,0" ItemsSource="{Binding properties}" AutoGenerateColumns="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Key" Width="100" Binding="{Binding Key}"/>
-                    <DataGridTextColumn Header="Value" Width="*" Binding="{Binding Value}"/>
-                </DataGrid.Columns>
-            </DataGrid>
+        <!-- Begin Properties panel. -->
+        <Label Content="Edit Properties: (Select part type first!)" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2"/>
+        <DataGrid x:Name="props" Grid.Row="5" Grid.Column="1" Grid.RowSpan="4" Grid.ColumnSpan="3" Margin="100,0,0,0" ItemsSource="{Binding properties}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Key" Width="100" Binding="{Binding key}"/>
+                <DataGridTextColumn Header="Value" Width="*" Binding="{Binding value}"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
-            <Border BorderThickness="1" BorderBrush="Black" Grid.Row="9" Grid.ColumnSpan="4" Margin="10,10,10,-16">
-                <ScrollViewer>
-                    <TextBlock x:Name="jsonPreview" Grid.Row="9" Grid.ColumnSpan="4" Text="{Binding Name, FallbackValue='Fill in the values and hit make part to preview json!'}"/>
-                </ScrollViewer>
-            </Border>
-        </Grid>
-    </ScrollViewer>
+        <Border BorderThickness="1" BorderBrush="Black" Margin="151,0,-310,0" Grid.Column="3" Grid.RowSpan="9">
+            <ScrollViewer>
+                <TextBlock x:Name="jsonPreview" Grid.Row="9" Grid.ColumnSpan="4" Text="{Binding Name, FallbackValue='Fill in the values and hit make part to preview json!'}"/>
+            </ScrollViewer>
+        </Border>
+    </Grid>
 </Window>

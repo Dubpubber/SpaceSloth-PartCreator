@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceSloth_Part_Creator {
     /**
@@ -57,10 +54,11 @@ namespace SpaceSloth_Part_Creator {
         public string PartType { get; set; }
 
         [JsonProperty(Order = 12)]
-        public Dictionary<string, string> Properties;
+        public List<Property> Properties;
 
         public Part() {
-            Properties = new Dictionary<string, string>();
+            Properties = new List<Property>();
+            Init();
         }
 
         public void cleanEntries() {
@@ -79,12 +77,31 @@ namespace SpaceSloth_Part_Creator {
 
         public void addProps(ObservableCollection<Property> prop) {
             foreach(Property property in prop) {
-                Properties.Add(property.Key, property.Value);
+                Properties.Add(property);
             }
         }
 
         public string serializeToJson() {
             return JsonConvert.SerializeObject(this, Formatting.Indented);
+        }
+
+        public void ResetPart() {
+            Init();
+        }
+
+        private void Init() {
+            Rank = "A";
+            Health = 100.0f;
+            RepairFactor = 1.0f;
+            Cost = 100.0f;
+            Visible = true;
+            LocalName = "partrankdefault";
+            FileName = "partrankdefault.png";
+            RGB = "000000";
+            Alpha = 1.0f;
+            ShortHand = "prtdef";
+            PartType = "COCKPIT";
+            Properties.Clear();
         }
 
     }

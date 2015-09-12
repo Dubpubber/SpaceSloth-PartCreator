@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SpaceSloth_Part_Creator {
     public class Property {
-        public string Key { get; set; }
-        public string Value { get; set; }
+        public string key { get; set; }
+        public string value { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -48,16 +49,21 @@ namespace SpaceSloth_Part_Creator {
                 return;
             }
             else {
-                using (FileStream fs = File.Open(jAr, FileMode.Append))
+                var jsonData = File.ReadAllText(jAr);
+                var partList = JsonConvert.DeserializeObject<List<Part>>(jsonData) ?? new List<Part>();
+                partList.Add(part);
+
+                using (FileStream fs = File.Open(jAr, FileMode.OpenOrCreate))
                 using (StreamWriter sw = new StreamWriter(fs))
                 using (JsonWriter jw = new JsonTextWriter(sw)) {
                     jw.Formatting = Formatting.Indented;
 
                     JsonSerializer serializer = new JsonSerializer();
-                    serializer.Serialize(jw, part);
+                    serializer.Serialize(jw, partList);
+                    jsonPreview.Text = JsonConvert.SerializeObject(partList, Formatting.Indented);
                 }
+                part.ResetPart();
             }
-
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e) {
@@ -98,53 +104,47 @@ namespace SpaceSloth_Part_Creator {
                 Console.WriteLine("Loading properties for item clicked...");
                 if (properties.Count() > 0)
                     properties.Clear();
-                loadPartProperties(item);
+                loadPartProperties(item.Content.ToString());
                 Console.WriteLine("Completed. Count: " + properties.Count());
             }
         }
 
-        private void loadPartProperties(ListBoxItem item) {
-            string value = item.Content.ToString();
-            switch (value) {
+        private void loadPartProperties(String str) {
+            switch (str) {
                 case "Cockpit":
-                    properties.Add(new Property { Key = "HudValue", Value = "0" });
+                    properties.Add(new Property { key = "HudValue", value = "0" });
                     break;
                 case "GunMount":
-                    properties.Add(new Property { Key = "FireRate", Value = "10.0" });
+                    properties.Add(new Property { key = "FireRate", value = "10.0" });
                     break;
                 case "Hull":
-                    properties.Add(new Property { Key = "Capacity", Value = "100.0" });
+                    properties.Add(new Property { key = "Capacity", value = "100.0" });
                     break;
                 case "Thrusters":
-                    properties.Add(new Property { Key = "BoostCap", Value = "100.0" });
+                    properties.Add(new Property { key = "BoostCap", value = "100.0" });
                     break;
                 case "Wing1":
-                    properties.Add(new Property { Key = "Torque", Value = "50.0" });
+                    properties.Add(new Property { key = "Torque", value = "50.0" });
                     break;
                 case "Wing2":
-                    properties.Add(new Property { Key = "Torque", Value = "50.0" });
+                    properties.Add(new Property { key = "Torque", value = "50.0" });
                     break;
                 case "Shield Generator":
-                    properties.Add(new Property { Key = "Power", Value = "25.0" });
+                    properties.Add(new Property { key = "Power", value = "25.0" });
                     break;
                 case "Reactor":
-                    properties.Add(new Property { Key = "MaxSpeed", Value = "0.080" });
+                    properties.Add(new Property { key = "MaxSpeed", value = "0.080" });
                     break;
                 case "Armory":
-                    properties.Add(new Property { Key = "Capacity", Value = "1" });
+                    properties.Add(new Property { key = "Capacity", value = "1" });
                     break;
                 case "Tractor Beam":
-                    properties.Add(new Property { Key = "Range", Value = "5.0" });
+                    properties.Add(new Property { key = "Range", value = "5.0" });
                     break;
                 case "Refinery":
-                    properties.Add(new Property { Key = "RefineSpeed", Value = "1.0" });
+                    properties.Add(new Property { key = "RefineSpeed", value = "1.0" });
                     break;
             }
-            
-            // Set the curent dictionary to the new properties.
-            part.addProps(properties);
-
-
             props.ItemsSource = null;
             props.ItemsSource = properties;
         }
@@ -190,11 +190,7 @@ namespace SpaceSloth_Part_Creator {
                 part.LocalName = " ";
 
             // set file name
-            if (fileNameValue.Text.Length > 0) {
-                part.FileName = fileNameValue.Text;
-            }
-            else
-                part.FileName = " ";
+            part.FileName = ((ComboBoxItem) fileNameValue.SelectedItem).Content.ToString();
 
             Color selectedColor = new Color();
             // set rgb
@@ -272,8 +268,9 @@ namespace SpaceSloth_Part_Creator {
             else
                 part.PartType = "COCKPIT";
 
-            if(part.Properties.Count() > 0)
-                jsonPreview.Text = part.serializeToJson();
+            // Load properties //
+            loadPartProperties(partTypeValue.SelectedItem.ToString());
+            part.addProps(properties);
 
             return part;
         }
