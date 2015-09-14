@@ -207,7 +207,11 @@ namespace SpaceSloth_Part_Creator {
                 part.LocalName = " ";
 
             // set file name
-            part.FileName = ((ComboBoxItem) fileNameValue.SelectedItem).Content.ToString();
+            if (fileNameValue.IsEnabled) {
+                part.FileName = ((ComboBoxItem)fileNameValue.SelectedItem).Content.ToString();
+            }
+            else
+                part.FileName = "none";
 
             Color selectedColor = new Color();
             // set rgb
@@ -216,11 +220,11 @@ namespace SpaceSloth_Part_Creator {
                 part.RGB = selectedColor.R.ToString("X2") + selectedColor.G.ToString("X2") + selectedColor.B.ToString("X2");
             }
             else
-                part.RGB = "000000";
+                part.RGB = "none";
 
             // set alpha
             if (rgbValue.SelectedColor != null) {
-                part.Alpha = float.Parse(selectedColor.A.ToString(), currentCulture) / 100;
+                part.Alpha = (float.Parse(selectedColor.A.ToString(), currentCulture) / 255);
             }
             else
                 part.Alpha = 1.0f;
@@ -369,7 +373,7 @@ namespace SpaceSloth_Part_Creator {
                     }
                 }
                 localNameValue.Text = rank + " ";
-                shortHandValue.Text = rank.ToLower().Replace(" ", "") + partType.ToLower().Replace(" ", "") + randomAdjective + " ";
+                shortHandValue.Text = rank.ToLower().Replace(" ", "") + partType.ToLower().Replace(" ", "") + randomAdjective + "";
             }
             else {
                 MessageBox.Show("Please select a rank and part type first!");
