@@ -297,29 +297,46 @@ namespace SpaceSloth_Part_Creator {
         }
 
         private void getRandPart_Click(object sender, RoutedEventArgs e) {
-            int ranRank = r.Next(0, int.Parse(rankValue.Items.Count.ToString()));
-            int ranPartType = r.Next(0, int.Parse(partTypeValue.Items.Count.ToString()));
-            rankValue.SelectedIndex = ranRank;
-            partTypeValue.SelectedIndex = ranPartType;
-            // disable file field if value is greater than 6
-            if (ranPartType > 6) {
-                fileNameValue.IsEnabled = false;
-                fileNameValue.SelectedIndex = -1;
+            if((bool)rankToggle.IsChecked) {
+                int ranRank = r.Next(0, int.Parse(rankValue.Items.Count.ToString()));
+                rankValue.SelectedIndex = ranRank;
             }
-            else
-                fileNameValue.IsEnabled = true;
-            string partType = ((ListBoxItem)partTypeValue.SelectedValue).Content.ToString();
-            // fill text fields
-            fillFieldsOfPartType("");
-            // set random color
-            Color randColor = Color.FromArgb(255, (byte)r.Next(0, 255), (byte)r.Next(0, 255), (byte)r.Next(0, 255));
-            rgbValue.SelectedColor = randColor;
-            // Set number fields
-            healthValue.Text = NextDouble(1.0, 1000.0) + "";
-            repairFactorValue.Text = NextDouble(0.01, 10.0) + "";
-            costValue.Text = NextDouble(100.0, 100000.0) + "";
-            properties.Clear();
-            loadPartProperties(partType);
+
+            if((bool)partTypeToggle.IsChecked) {
+                int ranPartType = r.Next(0, int.Parse(partTypeValue.Items.Count.ToString()));
+                partTypeValue.SelectedIndex = ranPartType;
+
+                if (ranPartType > 6) {
+                    fileNameValue.IsEnabled = false;
+                    fileNameValue.SelectedIndex = -1;
+                }
+                else
+                    fileNameValue.IsEnabled = true;
+            }
+
+            if (partTypeValue.SelectedItem != null) { 
+                string partType = ((ListBoxItem)partTypeValue.SelectedValue).Content.ToString();
+                properties.Clear();
+                loadPartProperties(partType);
+                fillFieldsOfPartType("");
+            }
+
+            if((bool) colorToggle.IsChecked) {
+                Color randColor = Color.FromArgb(255, (byte)r.Next(0, 255), (byte)r.Next(0, 255), (byte)r.Next(0, 255));
+                rgbValue.SelectedColor = randColor;
+            }
+
+            if ((bool)healthToggle.IsChecked) {
+                healthValue.Text = NextDouble(1.0, 1000.0) + "";
+            }
+
+            if ((bool)repairFactorToggle.IsChecked) {
+                repairFactorValue.Text = NextDouble(0.01, 10.0) + "";
+            }
+
+            if ((bool)costToggle.IsChecked) {
+                costValue.Text = NextDouble(100.0, 100000.0) + "";
+            }
         }
 
         private void fillFieldsOfPartType(string randomAdjective) {

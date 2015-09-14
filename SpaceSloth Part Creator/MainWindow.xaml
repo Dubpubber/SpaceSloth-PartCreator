@@ -63,7 +63,7 @@
             <ListBoxItem>Rank X1000</ListBoxItem>
         </ListBox>
 
-        <Label Content="PartType" Grid.Row="0" Grid.Column="2"></Label>
+        <Label Content="PartType" Grid.Row="0" Grid.Column="2" VerticalContentAlignment="Center"></Label>
         <ListBox x:Name="partTypeValue" Grid.Row="0" Grid.Column="3" PreviewMouseDown="listView_Click">
             <ListBoxItem>Cockpit</ListBoxItem>
             <ListBoxItem>GunMount</ListBoxItem>
@@ -83,7 +83,6 @@
 
         <Label Content="Repair Factor:" Grid.Row="2" Grid.Column="0"></Label>
         <TextBox x:Name="repairFactorValue" Grid.Row="2" Grid.Column="1" VerticalContentAlignment="Center" Text="{Binding repairFactor, FallbackValue=1.0}"/>
-
 
         <Label Content="Cost" Grid.Row="3" Grid.Column="0"></Label>
         <TextBox x:Name="costValue" Grid.Row="3" Grid.Column="1" VerticalContentAlignment="Center" Text="{Binding cost, FallbackValue=100.0}"/>
@@ -109,7 +108,7 @@
         <TextBox x:Name="shortHandValue" Grid.Row="3" Grid.Column="3" Margin="1,0,0,0" VerticalContentAlignment="Center" />
 
         <Button x:Name="getPart" Content="Make Part" Grid.Row="7" Grid.Column="0" Margin="10,0,56,0" Click="Button_Click" MaxHeight="25" VerticalAlignment="Center" RenderTransformOrigin="8.692,12.65" Height="26" Grid.ColumnSpan="2"></Button>
-        <Button x:Name="getRandPart" Content="Generate Random Part" Grid.Row="6" MaxHeight="25" VerticalAlignment="Bottom" RenderTransformOrigin="0.269,4.45" Height="25" Margin="10,0,56,1" Grid.ColumnSpan="2" Click="getRandPart_Click"/>
+        <Button x:Name="getRandPart" Content="Randomize" Grid.Row="6" MaxHeight="25" VerticalAlignment="Bottom" RenderTransformOrigin="0.269,4.45" Height="25" Margin="10,0,56,1" Grid.ColumnSpan="2" Click="getRandPart_Click"/>
         <Button x:Name="loadJson" Content="Load Precreated Json" Grid.Row="5" Margin="10,0,56,0" Click="Button_Click_1" MaxHeight="25" Grid.ColumnSpan="2"/>
         <Button x:Name="fillWithSelection" Content="Fill Fields from PartType" Grid.Row="8" Margin="10,0,56,0" Grid.ColumnSpan="2" Click="fillWithSelection_Click"/>
 
@@ -127,5 +126,13 @@
                 <TextBlock x:Name="jsonPreview" Grid.Row="9" Grid.ColumnSpan="4" Text="{Binding Name, FallbackValue='Fill in the values and hit make part to preview json!'}"/>
             </ScrollViewer>
         </Border>
+
+        <!--Finally, the randomizing toggle buttons!-->
+        <CheckBox x:Name="rankToggle" Margin="84,31,0,28" IsChecked="True" />
+        <CheckBox x:Name="healthToggle" Margin="84,5,0,4" Grid.Row="1" IsChecked="True" />
+        <CheckBox x:Name="repairFactorToggle" Margin="84,5,0,4" Grid.Row="2" IsChecked="True" />
+        <CheckBox x:Name="costToggle" Margin="84,4,0,5" Grid.Row="3" IsChecked="True" />
+        <CheckBox x:Name="colorToggle" Margin="84,5,0,4" Grid.Row="4" IsChecked="True" />
+        <CheckBox x:Name="partTypeToggle" Margin="84,31,0,28" Grid.Column="2" IsChecked="True" />
     </Grid>
 </Window>
