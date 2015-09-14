@@ -23,6 +23,8 @@ namespace SpaceSloth_Part_Creator {
 
         private string jsonString = "Click make part button to preview json.";
 
+        private Random r;
+
         public MainWindow() {
             InitializeComponent();
             WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
@@ -37,6 +39,7 @@ namespace SpaceSloth_Part_Creator {
 
             properties = new ObservableCollection<Property>();
             part = new Part();
+            r = new Random();
         }
 
         /**
@@ -76,7 +79,10 @@ namespace SpaceSloth_Part_Creator {
 
             if(result == true) {
                 jAr = dlg.FileName;
-                Console.WriteLine("File: " + (jAr != null));
+                if (jAr != null)
+                    MessageBox.Show("Successfully Loaded " + dlg.FileName + "!");
+                else
+                    MessageBox.Show("Couldn't load file!");
             }
         }
 
@@ -113,36 +119,47 @@ namespace SpaceSloth_Part_Creator {
             switch (str) {
                 case "Cockpit":
                     properties.Add(new Property { key = "HudValue", value = "0" });
+                    fileNameValue.IsEnabled = true;
                     break;
                 case "GunMount":
-                    properties.Add(new Property { key = "FireRate", value = "10.0" });
+                    properties.Add(new Property { key = "FireRate", value = "1.0" });
+                    fileNameValue.IsEnabled = true;
                     break;
                 case "Hull":
                     properties.Add(new Property { key = "Capacity", value = "100.0" });
+                    fileNameValue.IsEnabled = true;
                     break;
                 case "Thrusters":
                     properties.Add(new Property { key = "BoostCap", value = "100.0" });
+                    fileNameValue.IsEnabled = true;
                     break;
                 case "Wing1":
-                    properties.Add(new Property { key = "Torque", value = "50.0" });
+                    properties.Add(new Property { key = "Torque", value = "1.80" });
+                    fileNameValue.IsEnabled = true;
                     break;
                 case "Wing2":
-                    properties.Add(new Property { key = "Torque", value = "50.0" });
+                    properties.Add(new Property { key = "Torque", value = "1.80" });
+                    fileNameValue.IsEnabled = true;
                     break;
                 case "Shield Generator":
                     properties.Add(new Property { key = "Power", value = "25.0" });
+                    fileNameValue.IsEnabled = true;
                     break;
                 case "Reactor":
                     properties.Add(new Property { key = "MaxSpeed", value = "0.080" });
+                    fileNameValue.IsEnabled = false;
                     break;
                 case "Armory":
                     properties.Add(new Property { key = "Capacity", value = "1" });
+                    fileNameValue.IsEnabled = false;
                     break;
                 case "Tractor Beam":
                     properties.Add(new Property { key = "Range", value = "5.0" });
+                    fileNameValue.IsEnabled = false;
                     break;
                 case "Refinery":
                     properties.Add(new Property { key = "RefineSpeed", value = "1.0" });
+                    fileNameValue.IsEnabled = false;
                     break;
             }
             props.ItemsSource = null;
@@ -273,6 +290,77 @@ namespace SpaceSloth_Part_Creator {
             part.addProps(properties);
 
             return part;
+        }
+
+        private void fillWithSelection_Click(object sender, RoutedEventArgs e) {
+            fillFieldsOfPartType("");
+        }
+
+        private void getRandPart_Click(object sender, RoutedEventArgs e) {
+            int ranRank = r.Next(0, int.Parse(rankValue.Items.Count.ToString()));
+            int ranPartType = r.Next(0, int.Parse(partTypeValue.Items.Count.ToString()));
+            rankValue.SelectedIndex = ranRank;
+            partTypeValue.SelectedIndex = ranPartType;
+            // disable file field if value is greater than 6
+            if (ranPartType > 6) {
+                fileNameValue.IsEnabled = false;
+                fileNameValue.SelectedIndex = -1;
+            }
+            else
+                fileNameValue.IsEnabled = true;
+            string partType = ((ListBoxItem)partTypeValue.SelectedValue).Content.ToString();
+            // fill text fields
+            fillFieldsOfPartType("");
+            // set random color
+            Color randColor = Color.FromArgb(255, (byte)r.Next(0, 255), (byte)r.Next(0, 255), (byte)r.Next(0, 255));
+            rgbValue.SelectedColor = randColor;
+            // Set number fields
+            healthValue.Text = NextDouble(1.0, 1000.0) + "";
+            repairFactorValue.Text = NextDouble(0.01, 10.0) + "";
+            costValue.Text = NextDouble(100.0, 100000.0) + "";
+            properties.Clear();
+            loadPartProperties(partType);
+        }
+
+        private void fillFieldsOfPartType(string randomAdjective) {
+            if (partTypeValue.SelectedItem != null && rankValue.SelectedItem != null) {
+                string rank = ((ListBoxItem)rankValue.SelectedValue).Content.ToString();
+                string partType = ((ListBoxItem)partTypeValue.SelectedValue).Content.ToString();
+                if (fileNameValue.IsEnabled) {
+                    switch (partType) {
+                        case "Cockpit":
+                            fileNameValue.SelectedIndex = 0;
+                            break;
+                        case "GunMount":
+                            fileNameValue.SelectedIndex = 1;
+                            break;
+                        case "Hull":
+                            fileNameValue.SelectedIndex = 2;
+                            break;
+                        case "Thrusters":
+                            fileNameValue.SelectedIndex = 4;
+                            break;
+                        case "Wing1":
+                            fileNameValue.SelectedIndex = 5;
+                            break;
+                        case "Wing2":
+                            fileNameValue.SelectedIndex = 6;
+                            break;
+                        case "Shield Generator":
+                            fileNameValue.SelectedIndex = 3;
+                            break;
+                    }
+                }
+                localNameValue.Text = rank + " ";
+                shortHandValue.Text = rank.ToLower().Replace(" ", "") + partType.ToLower().Replace(" ", "") + randomAdjective + " ";
+            }
+            else {
+                MessageBox.Show("Please select a rank and part type first!");
+            }
+        }
+
+        private double NextDouble(double min, double max) {
+            return Math.Round(min + (r.NextDouble() * (max - min)), 2, MidpointRounding.AwayFromZero);
         }
 
     }

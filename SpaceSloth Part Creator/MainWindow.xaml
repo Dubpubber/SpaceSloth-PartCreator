@@ -109,8 +109,9 @@
         <TextBox x:Name="shortHandValue" Grid.Row="3" Grid.Column="3" Margin="1,0,0,0" VerticalContentAlignment="Center" />
 
         <Button x:Name="getPart" Content="Make Part" Grid.Row="7" Grid.Column="0" Margin="10,0,56,0" Click="Button_Click" MaxHeight="25" VerticalAlignment="Center" RenderTransformOrigin="8.692,12.65" Height="26" Grid.ColumnSpan="2"></Button>
-        <Button x:Name="getRandPart" Content="Generate Random Part" Grid.Row="6" MaxHeight="25" VerticalAlignment="Bottom" RenderTransformOrigin="0.269,4.45" Height="25" Margin="10,0,56,1" Grid.ColumnSpan="2"/>
+        <Button x:Name="getRandPart" Content="Generate Random Part" Grid.Row="6" MaxHeight="25" VerticalAlignment="Bottom" RenderTransformOrigin="0.269,4.45" Height="25" Margin="10,0,56,1" Grid.ColumnSpan="2" Click="getRandPart_Click"/>
         <Button x:Name="loadJson" Content="Load Precreated Json" Grid.Row="5" Margin="10,0,56,0" Click="Button_Click_1" MaxHeight="25" Grid.ColumnSpan="2"/>
+        <Button x:Name="fillWithSelection" Content="Fill Fields from PartType" Grid.Row="8" Margin="10,0,56,0" Grid.ColumnSpan="2" Click="fillWithSelection_Click"/>
 
         <!-- Begin Properties panel. -->
         <Label Content="Edit Properties: (Select part type first!)" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2"/>
